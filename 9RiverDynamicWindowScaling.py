@@ -61,7 +61,7 @@ font: the font used for button and message text
 starting_bet: the initial amount bet. make sure that this is divisible by all
     bet modifications
 '''
-SCALE = 2
+SCALE = 1
 rank_order = {'A':0, '2':1, '3': 2, '4':3, '5':4, '6':5, '7':6, '8':7,
               '9':8, 'T':9, 'J':10, 'Q':11, 'K':12}
 suit_order = {'h':0, 's':1, 'd':2, 'c':3}
@@ -369,7 +369,7 @@ bet = starting_bet
 switched = False
 selected = 0
 pygame.init()
-window = pygame.display.set_mode((screen_width, screen_height))
+window = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
 deck = treys.Deck()
 hands = []
 for i in range(number_of_hands):
