@@ -28,6 +28,7 @@ General notes:
 
 #you will need to install pygame and treys, and maybe PIL
 import pygame
+import os
 from PIL import Image
 import sys
 import treys
@@ -67,7 +68,7 @@ rank_order = {'A':0, '2':1, '3': 2, '4':3, '5':4, '6':5, '7':6, '8':7,
 suit_order = {'h':0, 's':1, 'd':2, 'c':3}
 width = int(225/SCALE)
 height = int(315/SCALE)
-scale_factor = int((1/2)/SCALE)
+scale_factor = 0.5/SCALE
 deck_image = Image.open(r"D:\9totheRiver\pngegg.png")
 screen_width = int(1600/SCALE)
 screen_height = int(1200/SCALE)
@@ -84,6 +85,7 @@ selected_color = (0, 0, 255)
 box_width = int(5/SCALE)
 font = pygame.font.Font(None, 36)
 starting_bet = 2
+player_score = 0
 
 def card_to_rank_and_suit(card: int) -> Tuple[int, int]:
     """
@@ -343,6 +345,7 @@ def bonus(hand) -> int:
     return 1
     
 def who_wins() -> None:
+    global player_score
     """
     Finds the winning hand(s), boxes them, and tells the player of the result.
     Currently, a loss can have a tied winner but a win cannot.
@@ -360,11 +363,16 @@ def who_wins() -> None:
         if hand_values.count(best_hand) > 1:
             display_text('You tie and win 0', int(680 / SCALE), int(1000 / SCALE))
         else:
-            display_text(f'You win {bet * bonus(hands[selected])}!', int(680 / SCALE), int(1000 / SCALE))
-        
+            win_amount = bet * bonus(hands[selected])
+            player_score += win_amount
+            display_text(f'You win {win_amount}!', int(680 / SCALE), int(1000 / SCALE))
+
+    # Display the running total of the player's score
+    display_text(f'Total Score: {player_score}', int(50 / SCALE), int(50 / SCALE))
 """"
 Initialize the screen, deck, hands, board, and other variables
 """
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1366 + 100, 1)
 bet = starting_bet
 switched = False
 selected = 0
